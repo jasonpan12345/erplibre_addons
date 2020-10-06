@@ -10,6 +10,7 @@ Canadian Payroll Rules.
 
     """,
     'data': [
+        'data/hr_income_tax_exemption.xml',
         'data/salary_rules/base.xml',
         'data/salary_rules/ben.xml',
         'data/salary_rules/ei.xml',

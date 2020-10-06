@@ -147,7 +147,7 @@
     <field name="name">Gross</field>
     <field name="sequence" eval="82"/>
     <field name="code">GROSS</field>
-    <field name="category_id" ref="payroll_base.GROSS"/>
+    <field name="category_id" ref="hr_payroll.GROSS"/>
     <field name="appears_on_payslip" eval="0"/>
     <field name="condition_select">none</field>
     <field name="amount_python_compute">result = GROSSP * P</field>
@@ -219,7 +219,7 @@
     <field name="name">Net</field>
     <field name="sequence" eval="500"/>
     <field name="code">NET</field>
-    <field name="category_id" ref="payroll_base.NET"/>
+    <field name="category_id" ref="hr_payroll.NET"/>
     <field name="appears_on_payslip" eval="1"/>
     <field name="condition_select">none</field>
     <field name="amount_python_compute">result = GROSSP + OTHER_WAGE - categories.DED - categories.SDED</field>
