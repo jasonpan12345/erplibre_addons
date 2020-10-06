@@ -6,28 +6,19 @@
     'depends': ['hr_payroll', 'l10n_ca'],
     'description': """
 Canadian Payroll Rules.
-=====================
+=======================
 
-    - Configuration of hr_payroll for French localization
-    - All main contributions rules for French payslip, for 'cadre' and 'non-cadre'
-    - New payslip report
-
-TODO:
------
-    - Integration with holidays module for deduction and allowance
-    - Integration with hr_payroll_account for the automatic account_move_line
-      creation from the payslip
-    - Continue to integrate the contribution. Only the main contribution are
-      currently implemented
-    - Remake the report under webkit
-    - The payslip.line with appears_in_payslip = False should appears in the
-      payslip interface, but not in the payslip report
     """,
     'data': [
-        'data/l10n_fr_hr_payroll_data.xml',
-        'views/l10n_fr_hr_payroll_view.xml',
-        'views/res_config_settings_views.xml',
-        'report/report_l10n_fr_fiche_paye.xml',
-        'report/l10n_fr_hr_payroll_report.xml',
+        'data/salary_rules/base.xml',
+        'data/salary_rules/ben.xml',
+        'data/salary_rules/ei.xml',
+        'data/salary_rules/cpp.xml',
+        'data/salary_rules/fit.xml',
+        'data/salary_rules/pension_plans.xml',
+        'data/salary_rules/vacation.xml',
+        'data/salary_rules/public_holidays.xml',
+        'data/salary_rules/sick_leaves.xml',
+        'data/salary_rules/compensatory.xml',
     ],
 }
