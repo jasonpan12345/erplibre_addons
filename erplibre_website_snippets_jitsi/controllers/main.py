@@ -2,9 +2,9 @@ from odoo import http
 
 
 class WebsiteJitsi(http.Controller):
-    @http.route(['/website_snippet_jitsi/get_api_key/'], type="json",
+    @http.route(['/website_jitsi/get_info/'], type="json",
                 auth="public", website=True)
-    def get_api_key(self):
+    def get_info(self):
         return {"roomName": "nick-X",
                 "userInfo":
                     {
@@ -12,4 +12,5 @@ class WebsiteJitsi(http.Controller):
                         "displayName": "Nick X."
                     }
                 }
+
 

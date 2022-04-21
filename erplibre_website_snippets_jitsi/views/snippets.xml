@@ -4,8 +4,8 @@
   <!-- Snippet Content-->
   <template id="s_jitsi" name="Jitsi Meet">
     <section class="website_jitsi">
-      <div id="jitsi-loading">
-        <p class="loading">Loading ...</p>
+      <div id="meet">
+        <p class="loading" id="message">Loading ...</p>
       </div>
     </section>
   </template>
