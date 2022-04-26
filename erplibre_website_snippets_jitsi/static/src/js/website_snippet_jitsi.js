@@ -25,7 +25,7 @@ odoo.define('website_jitsi', function (require) {
 
                   console.warn('> Jitsi loaded:', URL, ev);
 
-                  document.body.classList.add('jitsi-loaded');
+                  //document.body.classList.add('jitsi-loaded');
                 }
             };
             var def = this._rpc({route: '/website_jitsi/get_info/'}).then(function (data) {
@@ -36,8 +36,9 @@ odoo.define('website_jitsi', function (require) {
                 if (_.isEmpty(data)) {
                     return;
                 }
-                options.roomName = data.roomName;
+                options.roomName = data.meeting;
                 options.userInfo = data.userInfo;
+                document.getElementById("message").innerHTML = data.meeting;
                 const jitsi = new JitsiMeetExternalAPI(domain, options);
             });
             jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
