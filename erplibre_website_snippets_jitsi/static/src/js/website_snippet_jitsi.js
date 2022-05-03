@@ -36,9 +36,9 @@ odoo.define('website_jitsi', function (require) {
                 if (_.isEmpty(data)) {
                     return;
                 }
-                options.roomName = data.meeting;
+                options.roomName = data.roomName;
                 options.userInfo = data.userInfo;
-                document.getElementById("message").innerHTML = data.meeting;
+                document.getElementById("message").innerHTML = data.roomName;
                 const jitsi = new JitsiMeetExternalAPI(domain, options);
             });
             jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
