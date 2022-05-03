@@ -6,19 +6,18 @@ class WebsiteJitsi(http.Controller):
     @http.route(['/website_jitsi/get_info/'], type="json",
                 auth="public", website=True)
     def get_info(self):
-        meeting = request.env['sinerkia_jitsi_meet.jitsi_meet'].sudo().search([("name","!=","null")],offset=0,limit=100)[0]
+        meetings = request.env['sinerkia_jitsi_meet.jitsi_meet'].sudo().search([("name","!=","null")],offset=0,limit=100)
+        array = []
+        for meeting in meetings:
+            array.append({"meetingName": meeting.name, "roomName": meeting.url[20:]})
         email = request.env.user.email
         username = request.env.user.name
-        meetingName = meeting.name
-        url = meeting.url
-        roomName = url[20:]
-        return {"roomName": roomName,
-                "userInfo":
+        return {"userInfo":
                     {
                         "email": email,
                         "displayName": username
                     },
-                "url": url
+                "meetings": array
                 }
 
 
