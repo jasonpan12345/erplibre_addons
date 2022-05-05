@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from odoo import http
 from odoo.http import request
 
@@ -7,9 +9,9 @@ class WebsiteJitsi(http.Controller):
                 auth="public", website=True)
     def get_info(self):
         meetings = request.env['sinerkia_jitsi_meet.jitsi_meet'].sudo().search([("name","!=","null")],offset=0,limit=100)
-        array = []
+        meetingsInfo = []
         for meeting in meetings:
-            array.append({"meetingName": meeting.name, "roomName": meeting.url[20:]})
+            meetingsInfo.append({"meetingName": meeting.name, "roomName": urlparse(meeting.url).path.replace("/","")})
         email = request.env.user.email
         username = request.env.user.name
         return {"userInfo":
@@ -17,7 +19,7 @@ class WebsiteJitsi(http.Controller):
                         "email": email,
                         "displayName": username
                     },
-                "meetings": array
+                "meetings": meetingsInfo
                 }
 
 
