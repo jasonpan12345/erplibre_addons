@@ -9,22 +9,18 @@
       </div>
     </section>
   </template>
-
-  <template id="s_jitsi_form" name="Jitsi Meet">
-    <section class="website_jitsi">
-      <div id="meet">
-        <input/>
-        <input/>
-        <input/>
+  <template id="s_form" name="Jitsi Form">
+    <section class="website_jitsi_form">
+      <div id="form">
+        <input></input>
       </div>
     </section>
   </template>
-
   <!-- Add snippets to menu -->
   <template id="add_snippet_structure_to_menu" inherit_id="website.snippets">
     <xpath expr="//div[@id='snippet_structure']/div[hasclass('o_panel_body')]" position="inside">
       <t t-snippet="erplibre_website_snippets_jitsi.s_jitsi" t-thumbnail="/erplibre_website_snippets_jitsi/static/src/img/web_cam.png"/>
-      <t t-snippet="erplibre_website_snippets_jitsi.s_jitsi_form" t-thumbnail="/erplibre_website_snippets_jitsi/static/src/img/web_cam.png"/>
+      <t t-snippet="erplibre_website_snippets_jitsi.s_form" t-thumbnail="/erplibre_website_snippets_jitsi/static/src/img/web_cam.png"/>
     </xpath>
   </template>
 
