@@ -17,40 +17,28 @@ odoo.define('website_jitsi.widgets', function (require) {
         );
 
     var ParamsForm = Dialog.extend({
-        template: "website_form_builder.ParamsForm",
+        template: "website_jitsi.ParamsForm",
 
-        /**
-         * Store models info before creating widget
-         *
-         * @param {Object} parent Widget where this dialog is attached
-         * @param {Object} options Dialog creation options
-         * @param {Array} models Available models to choose among
-         * @param {String} chosen Prechosen model
-         * @returns {Dialog} New Dialog object
-         */
-        init: function (parent, options, models, chosen) {
-            this.models = models;
-            this.chosen = chosen;
+        init: function (parent, options) {
             var _options = $.extend({}, {
                 title: _t("Form Settings"),
                 size: "small",
             }, options);
             return this._super(parent, _options);
         },
-
-        /**
-         * Save new model
-         */
+        /*
         save: function () {
             this.final_data = this.$("#model").val();
             this._super.apply(this, arguments);
-        },
+        },*/
     });
+
     // Resolve when finished loading templates
     _templates_loaded.done(function () {
         result.resolve({
             ParamsForm: ParamsForm,
         });
     });
+
     return result;
 });
