@@ -1,7 +1,7 @@
 /* Copyright 2017 Tecnativa - Jairo Llopis
  * License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl). */
 
-odoo.define('website_form_builder.snippets', function (require) {
+odoo.define('website_jitsi.snippets', function (require) {
     "use strict";
 
     var ajax = require("web.ajax");
@@ -10,7 +10,7 @@ odoo.define('website_form_builder.snippets', function (require) {
     var Domain = require('web.Domain');
     var weContext = require("web_editor.context");
     var options = require('web_editor.snippets.options');
-    var widgets = require("website_form_builder.widgets");
+    var widgets = require("website_jitsi.widgets");
     var _t = core._t;
 
     var _fields_asked = {},
