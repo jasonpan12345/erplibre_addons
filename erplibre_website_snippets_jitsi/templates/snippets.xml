@@ -24,7 +24,6 @@
             </form>
         </section>
     </template>
-
     <template id="snippets" inherit_id="website.snippets">
         <xpath expr="//*[@id='snippet_structure']//*[hasclass('o_panel_body')]">
             <t t-snippet="erplibre_website_snippets_jitsi.s_website_form"

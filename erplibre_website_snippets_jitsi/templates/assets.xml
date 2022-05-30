@@ -4,7 +4,6 @@
      License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl). -->
 
 <odoo>
-
     <template id="assets_editor" inherit_id="website.assets_editor">
         <xpath expr=".">
             <script type="text/javascript"
@@ -22,6 +21,4 @@
                     src="/web/static/src/js/core/context.js"/>
         </xpath>
     </template>
-
-
 </odoo>

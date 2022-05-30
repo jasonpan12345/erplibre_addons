@@ -8,7 +8,6 @@
         <p class="loading" id="message">Loading ...</p>
       </div>
     </section>
-
     <section class="container readable o_website_form_builder">
             <form
                 accept-charset="UTF-8"
