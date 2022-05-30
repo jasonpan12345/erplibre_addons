@@ -18,7 +18,7 @@ odoo.define('website_form_builder.snippets', function (require) {
         _models_asked = false,
         _models_def = $.Deferred(),
         _templates_loaded = ajax.loadXML(
-            "/erplibre_website_snippets_jitsiF/static/views/snippets.xml",
+            "/erplibre_website_snippets_jitsi/static/views/snippets.xml",
             core.qweb
         );
 
