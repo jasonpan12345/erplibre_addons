@@ -5,14 +5,12 @@ odoo.define('website_jitsi', function (require) {
         selector: '.website_jitsi',
         xmlDependencies: [],
         events: {},
-        read_events: {
-        },
+        read_events: {},
 
         /**
          * @override
          */
         start: function () {
-            const domain = 'meet.jit.si';
             var options = {
                 roomName: "Default", // 'PickAnAppropriateMeetingNameHere',
                 width: '100%', // 700,
@@ -21,14 +19,26 @@ odoo.define('website_jitsi', function (require) {
                 userInfo: {},
                 invitees_X: [],
                 onload: ev => {
-                  const URL = ev.target.src;
+                    const URL = ev.target.src;
 
-                  console.warn('> Jitsi loaded:', URL, ev);
+                    console.warn('> Jitsi loaded:', URL, ev);
 
-                  //document.body.classList.add('jitsi-loaded');
+                    //document.body.classList.add('jitsi-loaded');
                 }
             };
-            var def = this._rpc({route: '/website_jitsi/get_info/'}).then(function (data) {
+
+            // let new_record = true;
+            // let jitsi_id = 0;
+
+            let new_record = false;
+            let jitsi_id = 1;
+
+            var def = this._rpc({
+                route: '/website_jitsi/get_info/', params: {
+                    new_record: new_record,
+                    jitsi_id:jitsi_id,
+                },
+            }).then(function (data) {
                 if (data.error) {
                     return;
                 }
@@ -36,13 +46,14 @@ odoo.define('website_jitsi', function (require) {
                 if (_.isEmpty(data)) {
                     return;
                 }
-                options.roomName = data.meetings[0].roomName;
+                options.roomName = data.meetings.roomName;
                 options.userInfo = data.userInfo;
-                document.getElementById("message").innerHTML = data.meetings[0].roomName;
-                const jitsi = new JitsiMeetExternalAPI(domain, options);
+                // document.getElementById("message").innerHTML = data.meetings.roomName;
+                document.getElementById("message").innerHTML = "Jitsi url: " + data.meetings.url;
+                const jitsi = new JitsiMeetExternalAPI(data.meetings.domaineName, options);
+                jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
+                jitsi.addEventListener('outgoingMessage', ev => console.warn('> Outgoing:', ev));
             });
-            jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
-            jitsi.addEventListener('outgoingMessage', ev => console.warn('> Outgoing:', ev));
             return $.when(this._super.apply(this, arguments), def);
         },
     });
