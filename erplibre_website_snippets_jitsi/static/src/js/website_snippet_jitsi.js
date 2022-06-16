@@ -27,11 +27,11 @@ odoo.define('website_jitsi', function (require) {
                 }
             };
 
-            // let new_record = true;
-            // let jitsi_id = 0;
+            let new_record = true;
+            let jitsi_id = 0;
 
-            let new_record = false;
-            let jitsi_id = 1;
+            // let new_record = false;
+            // let jitsi_id = 1;
 
             var def = this._rpc({
                 route: '/website_jitsi/get_info/', params: {
