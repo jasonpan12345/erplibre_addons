@@ -22,7 +22,6 @@ odoo.define('website_jitsi', function (require) {
                     const URL = ev.target.src;
 
                     console.warn('> Jitsi loaded:', URL, ev);
-
                     //document.body.classList.add('jitsi-loaded');
                 }
             };
@@ -50,9 +49,13 @@ odoo.define('website_jitsi', function (require) {
                 options.userInfo = data.userInfo;
                 // document.getElementById("message").innerHTML = data.meetings.roomName;
                 document.getElementById("message").innerHTML = "Jitsi url: " + data.meetings.url;
+                console.log("Jitsi url: " + data.meetings.url);
+
                 const jitsi = new JitsiMeetExternalAPI(data.meetings.domaineName, options);
                 jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
                 jitsi.addEventListener('outgoingMessage', ev => console.warn('> Outgoing:', ev));
+
+                $('input.focused').removeClass("focused");
             });
             return $.when(this._super.apply(this, arguments), def);
         },

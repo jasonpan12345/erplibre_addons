@@ -39,4 +39,11 @@
             />
         </xpath>
     </template>
+
+    <template id="assets_editor" inherit_id="website.assets_editor">
+        <xpath expr=".">
+            <script type="text/javascript"
+                    src="/erplibre_website_snippets_jitsi/static/src/js/widgets.js"/>
+        </xpath>
+    </template>
 </odoo>
