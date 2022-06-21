@@ -18,8 +18,18 @@ odoo.define('website_jitsi', function (require) {
                 parentNode: document.querySelector('#meet'),
                 userInfo: {},
                 invitees_X: [],
+                configOverwrite: {
+                    prejoinPageEnabled: false,
+                },
                 onload: ev => {
                     const URL = ev.target.src;
+                    console.info("patate123");
+
+                    $('iframe[id^=jitsiConferenceFrame]').each(function () {
+                        if ($(this).attr('id') != 'jitsiConferenceFrame0') {
+                            $(this).remove();
+                        }
+                    });
 
                     console.warn('> Jitsi loaded:', URL, ev);
                     //document.body.classList.add('jitsi-loaded');
@@ -55,7 +65,7 @@ odoo.define('website_jitsi', function (require) {
                 jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
                 jitsi.addEventListener('outgoingMessage', ev => console.warn('> Outgoing:', ev));
 
-                $('input.focused').removeClass("focused");
+                $('input.focused').removeEventListener("focused");
             });
             return $.when(this._super.apply(this, arguments), def);
         },
