@@ -43,7 +43,18 @@
     <template id="assets_editor" inherit_id="website.assets_editor">
         <xpath expr=".">
             <script type="text/javascript"
-                    src="/erplibre_website_snippets_jitsi/static/src/js/widgets.js"/>
+                    src="/erplibre_website_snippets_jitsi/static/src/js/dialog.js"/>
+        </xpath>
+    </template>
+
+    <!-- Add snippets options -->
+    <template id="snippet_options" inherit_id="website.snippet_options">
+        <xpath expr=".">
+            <!-- The form itself -->
+            <div
+                data-js="erplibre_website_snippets_jitsi_form"
+                data-selector=".website_jitsi"
+            />
         </xpath>
     </template>
 </odoo>

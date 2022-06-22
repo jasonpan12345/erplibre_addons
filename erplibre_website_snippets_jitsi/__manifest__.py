@@ -9,7 +9,9 @@
     "website": "https://technolibre.ca",
     "license": "AGPL-3",
     "application": False,
-    "depends": ["website", "sinerkia_jitsi_meet", 'website_form_builder'],
-    "data": ["views/snippets.xml", ],
+    "depends": ["website", "sinerkia_jitsi_meet"],
+    "data": [
+        "views/snippets.xml",
+    ],
     "installable": True,
 }

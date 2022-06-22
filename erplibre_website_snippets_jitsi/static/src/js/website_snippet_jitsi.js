@@ -3,9 +3,6 @@ odoo.define('website_jitsi', function (require) {
     var sAnimation = require('website.content.snippets.animation');
     sAnimation.registry.website_jitsi = sAnimation.Class.extend({
         selector: '.website_jitsi',
-        xmlDependencies: [],
-        events: {},
-        read_events: {},
 
         /**
          * @override
@@ -23,7 +20,6 @@ odoo.define('website_jitsi', function (require) {
                 },
                 onload: ev => {
                     const URL = ev.target.src;
-                    console.info("patate123");
 
                     $('iframe[id^=jitsiConferenceFrame]').each(function () {
                         if ($(this).attr('id') != 'jitsiConferenceFrame0') {
@@ -64,8 +60,6 @@ odoo.define('website_jitsi', function (require) {
                 const jitsi = new JitsiMeetExternalAPI(data.meetings.domaineName, options);
                 jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
                 jitsi.addEventListener('outgoingMessage', ev => console.warn('> Outgoing:', ev));
-
-                $('input.focused').removeEventListener("focused");
             });
             return $.when(this._super.apply(this, arguments), def);
         },
