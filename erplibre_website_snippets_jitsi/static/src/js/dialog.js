@@ -48,7 +48,7 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
     }
 
     var ParamsForm = Dialog.extend({
-        //template: "erplibre_website_snippets_jitsi.ParamsForm",
+        template: "erplibre_website_snippets_jitsi.ParamsForm",
 
         /**
          * Store models info before creating widget
@@ -84,9 +84,7 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
 
     _templates_loaded.done(function () {
         result.resolve({
-            DefaultValueForm: DefaultValueForm,
             ParamsForm: ParamsForm,
-            ModelFieldForm: ModelFieldForm,
         });
     });
 

@@ -3,13 +3,7 @@
      License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl). -->
 
 <template>
-    <t t-name="website_form_builder.DefaultValueForm">
-        <form>
-            <t t-raw="widget.field_html"/>
-        </form>
-    </t>
-
-    <t t-name="website_form_builder.ModelFieldForm">
+    <t t-name="erplibre_website_snippets_jitsi.ModelFieldForm">
         <form>
             <div class="form-group">
                 <label for="field">Choose the new field for the form</label>
@@ -24,19 +18,17 @@
         </form>
     </t>
 
-    <t t-name="website_form_builder.ParamsForm">
+    <t t-name="erplibre_website_snippets_jitsi.ParamsForm">
         <form>
             <div class="form-group">
                 <label for="model">Choose this form's action</label>
                 <select id="model" class="form-control">
-                    <t t-foreach="widget.models" t-as="model">
-                        <option
-                            t-att-value="model"
-                            t-att-selected="model === widget.chosen ? 'selected' : null"
-                        >
-                            <t t-esc="widget.models[model].website_form_label || widget.models[model].name"/>
-                        </option>
-                    </t>
+                    <option t-att-value="new_channel" t-att-selected="new_channel">
+                        <field>Nouveau canal</field>
+                    </option>
+                    <option t-att-value="old_channel" t-att-selected="old_channel">
+                        <field>Canal existant</field>
+                    </option>
                 </select>
             </div>
         </form>
