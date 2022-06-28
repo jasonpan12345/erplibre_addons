@@ -33,4 +33,19 @@
             </div>
         </form>
     </t>
+    <t t-name="erplibre_website_snippets_jitsi.ChannelsForm">
+        <form>
+            <div class="form-group">
+                <label for="model">Choose a channel</label>
+                <select id="model" class="form-control">
+                    <option t-att-value="new_channel" t-att-selected="new_channel">
+                        <field>test</field>
+                    </option>
+                    <option t-att-value="old_channel" t-att-selected="old_channel">
+                        <field>test</field>
+                    </option>
+                </select>
+            </div>
+        </form>
+    </t>
 </template>
