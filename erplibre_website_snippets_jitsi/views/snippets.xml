@@ -51,21 +51,12 @@
     <template id="snippet_options" inherit_id="website.snippet_options">
         <xpath expr=".">
             <!-- The form itself -->
-            <div
-                data-js="erplibre_website_snippets_jitsi_form"
-                data-selector=".website_jitsi"
-            />
-            <div data-js="" data-selector=".website_jitsi">
-                <div class="dropdown-submenu">
-                    <a tabindex="-1" href="#" class="dropdown-item">
-                        <i class="fa fa-list"/>Channels
-                    </a>
-                    <div class="dropdown-menu" role="menu">
-                        <a href="#" class="dropdown-item" data-select-class="">Existing channel</a>
-                        <a href="#" class="dropdown-item" data-select-class="">New Channel</a>
-                    </div>
-                </div>
+            <div data-js="erplibre_website_snippets_jitsi_form" data-selector=".website_jitsi">
+                <a id="channel" tabindex="-1" href="#" class="dropdown-item" data-ask_model="" data-no-preview="true">
+                    <i class="fa fa-list"/>Channels
+                </a>
             </div>
+
         </xpath>
     </template>
 </odoo>
