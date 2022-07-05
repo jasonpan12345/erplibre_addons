@@ -23,27 +23,17 @@
             <div class="form-group">
                 <label for="model">Choose this form's action</label>
                 <select id="model" class="form-control">
-                    <option t-att-value="new_channel" t-att-selected="new_channel">
+                    <option t-att-value="0" t-att-selected="new_channel">
                         <field>Nouveau canal</field>
                     </option>
-                    <option t-att-value="old_channel" t-att-selected="old_channel">
-                        <field>Canal existant</field>
-                    </option>
-                </select>
-            </div>
-        </form>
-    </t>
-    <t t-name="erplibre_website_snippets_jitsi.ChannelsForm">
-        <form>
-            <div class="form-group">
-                <label for="model">Choose a channel</label>
-                <select id="model" class="form-control">
-                    <option t-att-value="new_channel" t-att-selected="new_channel">
-                        <field>test</field>
-                    </option>
-                    <option t-att-value="old_channel" t-att-selected="old_channel">
-                        <field>test</field>
-                    </option>
+                    <t t-foreach="widget.rooms" t-as="room">
+                        <option
+                            t-att-value="room.id"
+                            t-att-selected="room === widget.chosen ? 'selected' : null"
+                        >
+                            <t t-esc="room.roomName"/>
+                        </option>
+                    </t>
                 </select>
             </div>
         </form>

@@ -7,6 +7,10 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
     var _t = core._t;
     var Dialog = widget.Dialog;
     var options = require('web_editor.snippets.options');
+    var sAnimation = require('website.content.snippets.animation');
+    var rpc = require('web.rpc');
+
+    let list_rooms;
 
 
     var result = $.Deferred(),
@@ -24,11 +28,14 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
          *
          * @param {Object} parent Widget where this dialog is attached
          * @param {Object} options Dialog creation options
+         * @param {Object} rooms rooms list
          * @param {String} chosen Prechosen model
          * @returns {Dialog} New Dialog object
          */
-        init: function (parent, options, chosen) {
+        init: function (parent, options, rooms, chosen) {
             this.chosen = chosen;
+            this.rooms = rooms;
+
             var _options = $.extend({}, {
                 title: _t("Form Settings"),
                 size: "small",
@@ -41,64 +48,93 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
          */
         save: function () {
             this.final_data = this.$("#model").val();
-            console.log(this.final_data);
+            console.log("save: " + this.final_data);
 
-            this._super.apply(this, arguments);
 
-            if(this.final_data == "Canal existant") {
-                var dialog = new ChannelsForm(
-                    $(".website_jitsi"), {}, "test", "test"
-                );
-                dialog.open();
-            }
-        },
-    });
-    var ChannelsForm = Dialog.extend({
-        template: "erplibre_website_snippets_jitsi.ChannelsForm",
-
-        /**
-         * @param {Object} parent Widget where this dialog is attached
-         * @param {Object} options Dialog creation options
-         * @param {String} chosen Prechosen model
-         * @returns {Dialog} New Dialog object
-         */
-        init: function (parent, options, chosen) {
-            this.chosen = chosen;
-            var _options = $.extend({}, {
-                title: _t("Form Settings"),
-                size: "small",
-            }, options);
-            return this._super(parent, _options);
-        },
-
-        /**
-         * Save data
-         */
-        save: function () {
-            this.final_data = this.$("#model").val();
-            this._super.apply(this, arguments);
-
-            let new_record = false;
-            let jitsi_id = 1;
-
-            var def = this._rpc({
-                route: '/website_jitsi/get_info/', params: {
-                    new_record: new_record,
-                    jitsi_id:jitsi_id,
-                },
-            }).then(function (data) {
-                if (data.error) {
-                    return;
-                }
-
+            rpc.query({
+                model: 'sinerkia_jitsi_meet.jitsi_meet',
+                method: 'get_channel',
+                args: [parseInt(this.final_data)]
+            }).then(function (data){
                 if (_.isEmpty(data)) {
                     return;
                 }
+
+                var options = {
+                    roomName: "Default", // 'PickAnAppropriateMeetingNameHere',
+                    width: '100%', // 700,
+                    height: 700,
+                    parentNode: document.querySelector('#meet'),
+                    userInfo: {},
+                    invitees_X: [],
+                    configOverwrite: {
+                        prejoinPageEnabled: false,
+                    },
+                    onload: ev => {
+                        const URL = ev.target.src;
+
+                        $('iframe[id^=jitsiConferenceFrame]').each(function () {
+                            if ($(this).attr('id') != 'jitsiConferenceFrame0') {
+                                $(this).remove();
+                            }
+                        });
+
+                        console.warn('> Jitsi loaded:', URL, ev);
+                    }
+                };
                 options.roomName = data.meetings.roomName;
                 options.userInfo = data.userInfo;
+                // document.getElementById("message").innerHTML = data.meetings.roomName;
+                document.getElementById("message").innerHTML = "Jitsi url: " + data.meetings.url;
                 console.log("Jitsi url: " + data.meetings.url);
-                console.log("room name: " + options.roomName);
-            });
+
+                const jitsi = new JitsiMeetExternalAPI(data.meetings.domaineName, options);
+                jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
+                jitsi.addEventListener('outgoingMessage', ev => console.warn('> Outgoing:', ev));
+            })
+
+
+            //
+            // var def = this._rpc({
+            //     route: '/website_jitsi/get_info/', params: {
+            //         jitsi_id: parseInt(this.final_data),
+            //     },
+            // }).then(function (data) {
+            //     if (data.error) {
+            //         return;
+            //     }
+            //
+            //     if (_.isEmpty(data)) {
+            //         return;
+            //     }
+            //     options.roomName = data.meetings.roomName;
+            //     options.userInfo = data.userInfo;
+            //     // document.getElementById("message").innerHTML = data.meetings.roomName;
+            //     document.getElementById("message").innerHTML = "Jitsi url: " + data.meetings.url;
+            //     console.log("Jitsi url: " + data.meetings.url);
+            //
+            //     const jitsi = new JitsiMeetExternalAPI(data.meetings.domaineName, options);
+            //     jitsi.addEventListener('incomingMessage', ev => console.warn('> Incoming:', ev));
+            //     jitsi.addEventListener('outgoingMessage', ev => console.warn('> Outgoing:', ev));
+            // });
+
+            // this._rpc({
+            //     model: 'ir.model',
+            //     method: 'search_read',
+            //     kwargs: {domain: [
+            //         ["website_form_access", "=", true],
+            //     ],
+            //     fields: [
+            //         "name",
+            //         "model",
+            //         "website_form_label",
+            //     ],
+            //     order: [{name: 'website_form_label', asc: true}],
+            //     context: weContext.get()},
+            // }).done(function (models_list) {
+            //     _models_def.resolve(_.indexBy(models_list, "model"));
+            // });
+            this._super.apply(this, arguments);
         },
     });
 
@@ -121,7 +157,7 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
          */
         onBuilt: function () {
             var dialog = new ParamsForm(
-                $(".website_jitsi"), {}, "test", "test"
+                $(".website_jitsi"), {}, list_rooms, ""
             );
             this._super.apply(this, arguments);
             dialog.open();
@@ -130,9 +166,47 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
         },
     });
 
+    let jitsi = sAnimation.registry.website_jitsi = sAnimation.Class.extend({
+        selector: '.website_jitsi',
+
+        /**
+         * @override
+         */
+        start: function () {
+            let def = this._rpc({
+                route: '/website_jitsi/get_canal_list/'
+            }).then(function (data) {
+                console.log("in rpc " + JSON.stringify(data));
+
+                if (data.error) {
+                    return;
+                }
+
+                if (_.isEmpty(data)) {
+                    return;
+                }
+                list_rooms = data;
+
+                for (let i = 0; i < data.length; i++) {
+                    //options.roomName = data[i].meetings.roomName;
+                    options.userInfo = data[i]["id"];
+
+                    //console.log("id: " + data[i]["url"]);
+
+                    //console.log("Jitsi url: " + data.meetings.url);
+                    //console.log("room name: " + options.roomName);
+                }
+
+            });
+
+            return $.when(this._super.apply(this, arguments), def);
+
+        },
+    });
+
     $(document).on("click", '#channel', function (ev) {
         let optionsDialog = new ParamsForm(
-            $(".website_jitsi"), {}, "test", "test"
+            $(".website_jitsi"), {}, list_rooms, ""
         );
         optionsDialog.open();
     })
