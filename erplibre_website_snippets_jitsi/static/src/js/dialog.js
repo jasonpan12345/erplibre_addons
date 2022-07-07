@@ -9,8 +9,9 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
     var options = require('web_editor.snippets.options');
     var sAnimation = require('website.content.snippets.animation');
     var rpc = require('web.rpc');
+    var weContext = require("web_editor.context");
 
-    let list_rooms;
+    let list_rooms = [];
 
 
     var result = $.Deferred(),
@@ -174,30 +175,52 @@ odoo.define('erplibre_website_snippets_jitsi.dialog', function (require) {
          */
         start: function () {
             let def = this._rpc({
-                route: '/website_jitsi/get_canal_list/'
-            }).then(function (data) {
-                console.log("in rpc " + JSON.stringify(data));
-
-                if (data.error) {
-                    return;
-                }
-
-                if (_.isEmpty(data)) {
-                    return;
-                }
-                list_rooms = data;
-
-                for (let i = 0; i < data.length; i++) {
-                    //options.roomName = data[i].meetings.roomName;
-                    options.userInfo = data[i]["id"];
-
-                    //console.log("id: " + data[i]["url"]);
-
-                    //console.log("Jitsi url: " + data.meetings.url);
-                    //console.log("room name: " + options.roomName);
-                }
-
+                model: 'sinerkia_jitsi_meet.jitsi_meet',
+                method: 'search_read',
+                kwargs: {
+                    fields: [
+                        "name",
+                        "roomName",
+                        "domaineName",
+                        "url",
+                        "id",
+                    ],
+                context: weContext.get()},
+            }).done(function (models_list) {
+                console.log("in rpc " + JSON.stringify(models_list));
+                list_rooms = models_list;
+                //_models_def.resolve(_.indexBy(models_list, "model"));
             });
+
+
+
+
+
+            // let def = this._rpc({
+            //     route: '/website_jitsi/get_canal_list/'
+            // }).then(function (data) {
+            //     console.log("in rpc " + JSON.stringify(data));
+            //
+            //     if (data.error) {
+            //         return;
+            //     }
+            //
+            //     if (_.isEmpty(data)) {
+            //         return;
+            //     }
+            //     list_rooms = data;
+            //
+            //     for (let i = 0; i < data.length; i++) {
+            //         //options.roomName = data[i].meetings.roomName;
+            //         options.userInfo = data[i]["id"];
+            //
+            //         //console.log("id: " + data[i]["url"]);
+            //
+            //         //console.log("Jitsi url: " + data.meetings.url);
+            //         //console.log("room name: " + options.roomName);
+            //     }
+            //
+            // });
 
             return $.when(this._super.apply(this, arguments), def);
 
